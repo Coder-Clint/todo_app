@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>TODO APP</title>
+{% endblock %}
+
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if all_items %}
+        <table class="table table-bordered">
+            {% for things in all_items %}
+                {% if things.completed %}
+                    <tr class="table-success">
+                        <td class="striker"><a href="{% url 'edit' things.id %}">{{ things.item }} </a></td>
+                        <td>
+                            <button type="button" class="btn btn-dark"><a href="{% url  'reschedule' things.id %}">Reschedule</a>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-dark"><a
+                                    href="{% url  'delete' things.id %}">Delete</a></button>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td><a href="{% url 'edit' things.id %}">{{ things.item }}</a></td>
+                        <td>
+                            <button type="button" class="btn btn-dark"><a href="{% url  'scheduled' things.id %}">Scheduled</a>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-dark"><a
+                                    href="{% url  'delete' things.id %}">Delete</a></button>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock content %}
